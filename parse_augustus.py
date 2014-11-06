@@ -9,6 +9,7 @@ from Bio.Alphabet import IUPAC
 from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 from Bio import SeqIO
+import json
 
 attribute_re = re.compile(' ?(?P<key>\S+) "(?P<value>[^"]+)";')
 def parse_gtf_attributes(attribute_str):
@@ -209,6 +210,7 @@ parser.add_argument('augustus_file', type=argparse.FileType(), help='Augustus fi
 parser.add_argument('gff3_output_file', type=argparse.FileType('w'))
 parser.add_argument('protein_fasta_output_file', type=argparse.FileType('w'))
 parser.add_argument('CDS_fasta_output_file', type=argparse.FileType('w'))
+parser.add_argument('evidence_output_file', nargs='?', type=argparse.FileType('w'))
 
 args = parser.parse_args()
 
@@ -217,7 +219,10 @@ if len(gff_lines) > 0:
     args.gff3_output_file.write('##gff-version 3\n'+''.join(gff_lines)+'\n')
 args.gff3_output_file.close()
 
+json.dump(evidence, args.evidence_output_file)
+
 SeqIO.write(proteins, args.protein_fasta_output_file, 'fasta')
 args.protein_fasta_output_file.close()
 SeqIO.write(CDSs, args.CDS_fasta_output_file, 'fasta')
 args.CDS_fasta_output_file.close()
+args.evidence_output_file.close()
