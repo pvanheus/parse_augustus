@@ -12,7 +12,11 @@ args = parser.parse_args()
 evidence = dict()
 for filename in glob.glob(args.input_pattern):
     input_file = open(filename)
-    evidence_dict = json.load(input_file)
+    try:
+        evidence_dict = json.load(input_file)
+    except ValueError as e:
+        message is "Failed to load JSON from {}: {}".format(input_file.name, str(e))
+        raise ValueError(message)
     input_file.close()
     for gene, evidence_list in evidence_dict.items():
         assert not gene in evidence, "Gene {} from {} already present in evidence: duplicate key!".format(gene, input_file.name)
