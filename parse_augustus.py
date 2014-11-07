@@ -24,7 +24,7 @@ def parse_gtf_attributes(attribute_str):
         attributes[match.group('key')] = match.group('value')
     return attributes
 
-hint_line_re = re.compile('#\s+(?P<hint_type>[^:]+): +\d+ \((?P<hint_str>[^)]+)')
+hint_line_re = re.compile('#\s+(?P<hint_type>[^:]+):( +)?\d+ \((?P<hint_str>[^)]+)')
 def parse_hint_group(line):
     match = hint_line_re.match(line)
     assert match != None, "could not match hint line regexp against: {}\n".format(line)
