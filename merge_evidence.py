@@ -15,7 +15,7 @@ for filename in glob.glob(args.input_pattern):
     try:
         evidence_dict = json.load(input_file)
     except ValueError as e:
-        message is "Failed to load JSON from {}: {}".format(input_file.name, str(e))
+        message = "Failed to load JSON from {}: {}".format(input_file.name, str(e))
         raise ValueError(message)
     input_file.close()
     for gene, evidence_list in evidence_dict.items():
